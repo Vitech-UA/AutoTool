@@ -14,13 +14,13 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableView" name="tableView">
+   <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>150</x>
       <y>10</y>
-      <width>611</width>
-      <height>411</height>
+      <width>631</width>
+      <height>421</height>
      </rect>
     </property>
    </widget>
