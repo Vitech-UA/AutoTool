@@ -21,7 +21,7 @@ class Ui_MainWindow(object):
             self.tableWidget.insertRow(row_number)
             for column_number, data in enumerate(row_data):
                 self.tableWidget.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
-              
+
         connection.close()
 
     def setupUi(self, MainWindow):
