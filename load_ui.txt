@@ -1,0 +1,10 @@
+    def loadData(self):
+        connection = sqlite3.connect('AutotoolDB.db')
+        query = "SELECT * FROM autotool"
+        result = connection.execute(query)
+        for row_number, row_data in enumerate(result):
+            self.tableWidget.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.tableWidget.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
+
+        connection.close()

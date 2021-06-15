@@ -6,49 +6,150 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>488</height>
+    <width>1103</width>
+    <height>416</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Autotool v1.0</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>131</width>
-      <height>81</height>
+      <x>0</x>
+      <y>0</y>
+      <width>1141</width>
+      <height>371</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QPushButton" name="addBtn">
-       <property name="text">
-        <string>Додати заміну ЗЧ</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="delBtn">
-       <property name="text">
-        <string>Видалити заміну ЗЧ</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QTableWidget" name="tableWidget">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>10</y>
-      <width>631</width>
-      <height>421</height>
-     </rect>
+    <property name="currentIndex">
+     <number>0</number>
     </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Заміни запчастин та ТО</string>
+     </attribute>
+     <widget class="QTableWidget" name="tableWidget">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>0</y>
+        <width>651</width>
+        <height>331</height>
+       </rect>
+      </property>
+      <property name="rowCount">
+       <number>6</number>
+      </property>
+      <property name="columnCount">
+       <number>5</number>
+      </property>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <column/>
+      <column/>
+      <column/>
+      <column/>
+      <column/>
+     </widget>
+     <widget class="QPushButton" name="addBtn">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>150</y>
+        <width>281</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Додати заміну</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>0</y>
+        <width>73</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Назва ЗЧ</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Пробіг, км</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Ціна, грн</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Дата заміни</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Примітка</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>0</y>
+        <width>201</width>
+        <height>140</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLineEdit" name="lineEdit"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_2"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_3"/>
+       </item>
+       <item>
+        <widget class="QDateEdit" name="dateEdit"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_4"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Заправки авто</string>
+     </attribute>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -56,7 +157,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1103</width>
      <height>26</height>
     </rect>
    </property>
