@@ -8,3 +8,5 @@
                 self.tableWidget.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
 
         connection.close()
+
+pyuic5 -x ui.ui -o ui.py
