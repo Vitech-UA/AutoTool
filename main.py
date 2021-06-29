@@ -6,8 +6,13 @@ from PyQt5.QtCore import QDate
 from ui import Ui_MainWindow
 
 
-def loadData(self):
-    connection = sqlite3.connect('AutotoolDB.db')
+def load_data_tools(self):
+    connection = None
+    try:
+        connection = sqlite3.connect('AutotoolDB.db')
+        print("Connect success")
+    except sqlite3.Error as e:
+        print(f"The error '{e}' occured")
     query = "SELECT * FROM autotool"
     result = connection.execute(query)
     for row_number, row_data in enumerate(result):
@@ -29,7 +34,7 @@ date = QDate.currentDate()
 ui.dateEdit.setDate(date)
 
 # підгружу дані з бази у таблицю
-loadData(ui)
+load_data_tools(ui)
 
 MainWindow.show()
 
