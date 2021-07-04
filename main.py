@@ -34,7 +34,7 @@ def insert_data_tools(self):
     INSERT INTO
       autotool (part_name, part_price, part_date, car_milage)
     VALUES
-      ('Filter', '100', '12.03.2021', '169000');
+      ('', '', '12.03.2021', '169000');
     """
     connection = None
     try:
@@ -56,13 +56,21 @@ ui = Ui_MainWindow()
 ui.setupUi(MainWindow)
 ui.addBtn.clicked.connect(insert_data_tools)
 
+ui.tableWidget.setHorizontalHeaderLabels(["№", "Назва", "Ціна, грн", "Дата заміни", "Пробіг, км"])
+ui.tableWidget.setToolTip("Сюди записуємо дані")
+ui.tableWidget.horizontalHeaderItem(0).setToolTip("Номер запису")
+ui.tableWidget.horizontalHeaderItem(1).setToolTip("Назва вузла, деталі, витратного матеріалу, що мінявся/ставився")
+ui.tableWidget.horizontalHeaderItem(2).setToolTip("Вартість заміненої деталі")
+ui.tableWidget.horizontalHeaderItem(3).setToolTip("Тут вказати дату заміни")
+ui.tableWidget.horizontalHeaderItem(4).setToolTip("Тут вказати пробіг в км. на момент заміни деталі")
+
+
 # підгружу поточну дату в DateEdit
 date = QDate.currentDate()
 ui.dateEdit.setDate(date)
 
 # підгружу дані з бази у таблицю
 load_data_tools(ui)
-
 MainWindow.show()
 
 sys.exit(app.exec_())
