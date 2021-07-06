@@ -31,6 +31,9 @@
       <string>Заміни запчастин та ТО</string>
      </attribute>
      <widget class="QTableWidget" name="tableWidget">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>440</x>
@@ -58,6 +61,9 @@
       <column/>
      </widget>
      <widget class="QPushButton" name="addBtn">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>150</x>
@@ -70,7 +76,7 @@
        <string>Додати заміну</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>150</x>
@@ -117,7 +123,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>230</x>
