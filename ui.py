@@ -93,7 +93,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Autotool v1.0"))
         self.addBtn.setText(_translate("MainWindow", "Додати заміну"))
-        self.label.setText(_translate("MainWindow", "Назва ЗЧ"))
+        self.label.setText(_translate("MainWindow", "Назва запчастини"))
         self.label_2.setText(_translate("MainWindow", "Пробіг, км"))
         self.label_3.setText(_translate("MainWindow", "Ціна, грн"))
         self.label_4.setText(_translate("MainWindow", "Дата заміни"))
