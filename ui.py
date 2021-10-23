@@ -102,6 +102,15 @@ class Ui_MainWindow(object):
         self.addBtn.setText(_translate("MainWindow", "Додати заміну"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Заміни запчастин та ТО"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Заправки авто"))
+        self.part_table.setHorizontalHeaderLabels(["№", "Назва", "Ціна, грн", "Дата заміни", "Пробіг, км"])
+        self.part_table.setToolTip("Сюди записуємо дані")
+        self.part_table.horizontalHeaderItem(0).setToolTip("Номер запису")
+        self.part_table.horizontalHeaderItem(1).setToolTip(
+            "Назва вузла, деталі, витратного матеріалу, що мінявся/ставився")
+        self.part_table.horizontalHeaderItem(2).setToolTip("Вартість заміненої деталі")
+        self.part_table.horizontalHeaderItem(3).setToolTip("Тут вказати дату заміни")
+        self.part_table.horizontalHeaderItem(4).setToolTip("Тут вказати пробіг в км. на момент заміни деталі")
+        self.part_table.verticalHeader().setVisible(False)
 
 
 if __name__ == "__main__":

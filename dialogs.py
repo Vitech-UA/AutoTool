@@ -1,5 +1,7 @@
 from PyQt5.QtWidgets import QMessageBox
 
+"""Клас діалогових вікон"""
+
 
 class Dialogs:
     def add_success_message():
