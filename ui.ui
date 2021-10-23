@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1103</width>
-    <height>416</height>
+    <width>1002</width>
+    <height>263</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>0</x>
       <y>0</y>
       <width>1141</width>
-      <height>371</height>
+      <height>241</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -30,16 +30,16 @@
      <attribute name="title">
       <string>Заміни запчастин та ТО</string>
      </attribute>
-     <widget class="QTableWidget" name="tableWidget">
+     <widget class="QTableWidget" name="part_table">
       <property name="enabled">
        <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
-        <x>440</x>
+        <x>310</x>
         <y>0</y>
-        <width>651</width>
-        <height>331</height>
+        <width>661</width>
+        <height>181</height>
        </rect>
       </property>
       <property name="rowCount">
@@ -60,26 +60,10 @@
       <column/>
       <column/>
      </widget>
-     <widget class="QPushButton" name="addBtn">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>150</x>
-        <y>150</y>
-        <width>281</width>
-        <height>28</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Додати заміну</string>
-      </property>
-     </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>150</x>
+        <x>10</x>
         <y>0</y>
         <width>73</width>
         <height>141</height>
@@ -126,27 +110,37 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>100</x>
         <y>0</y>
         <width>201</width>
-        <height>140</height>
+        <height>191</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QLineEdit" name="lineEdit"/>
+        <widget class="QLineEdit" name="part_name_edit"/>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_2"/>
+        <widget class="QLineEdit" name="part_mealege_edit"/>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_3"/>
+        <widget class="QLineEdit" name="part_price"/>
        </item>
        <item>
-        <widget class="QDateEdit" name="dateEdit"/>
+        <widget class="QDateEdit" name="part_date_edit"/>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_4"/>
+        <widget class="QLineEdit" name="part_note_edit"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="addBtn">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>Додати заміну</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -163,7 +157,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1103</width>
+     <width>1002</width>
      <height>26</height>
     </rect>
    </property>
