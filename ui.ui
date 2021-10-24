@@ -176,7 +176,7 @@
         <widget class="QLineEdit" name="fuel_price_edit"/>
        </item>
        <item>
-        <widget class="QDateEdit" name="part_date_edit_3"/>
+        <widget class="QDateEdit" name="fuel_date_edit"/>
        </item>
        <item>
         <widget class="QLineEdit" name="fuel_cap_edit"/>
@@ -258,7 +258,7 @@
        <number>6</number>
       </property>
       <property name="columnCount">
-       <number>7</number>
+       <number>8</number>
       </property>
       <attribute name="horizontalHeaderVisible">
        <bool>false</bool>
@@ -267,7 +267,7 @@
        <bool>false</bool>
       </attribute>
       <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>107</number>
+       <number>93</number>
       </attribute>
       <attribute name="verticalHeaderVisible">
        <bool>false</bool>
@@ -278,6 +278,7 @@
       <row/>
       <row/>
       <row/>
+      <column/>
       <column/>
       <column/>
       <column/>

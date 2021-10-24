@@ -121,31 +121,34 @@ class AutoFuel:
         ui.fuel_table.verticalHeader().setVisible(False)
         ui.fuel_table.horizontalHeader().setVisible(True)
         ui.add_refill_button.clicked.connect(AutoFuel.add_data)
-        ui.fuel_table.setHorizontalHeaderLabels(["№", "Тип палива", "Пробіг, км", "Вартість, грн",
-                                                 "Об'єм, л", "Прим.", "Ціна, грн/л"])
+        ui.fuel_table.setHorizontalHeaderLabels(["№", "Тип палива", "Пробіг, км", "Варт., грн",
+                                                 "Об'єм, л", "Прим.", "Ціна, грн/л", "Дата"])
         ui.fuel_type_combobox.addItems(["Газ", "Бензин", "Дизель"])
         date = QDate.currentDate()
         ui.part_date_edit.setDate(date)
-        ui.part_date_edit_3.setDate(date)
+        ui.fuel_date_edit.setDate(date)
 
     def add_data(self):
         """Метод в якому відбувається перевірка введеної інформаці та додавання її у БД"""
+        logging.info("Тип пального: {}".format(ui.fuel_type_combobox.currentText()))
         if len(ui.fuel_mealege_edit.text()) == 0:
             Messages.message("Не введено пробіг на момент заправки в поле Пробіг!")
         else:
-            logging.info("Пробіг {}".format(ui.fuel_mealege_edit.text()))
             if not ui.fuel_mealege_edit.text().isdigit():
                 Messages.message("В поле Пробіг введено не число!")
             else:
+                logging.info("Пробіг: {}".format(ui.fuel_mealege_edit.text()))
                 if len(ui.fuel_price_edit.text()) == 0:
                     Messages.message("Не введено вартість заправки в поле Вартість!")
                 else:
                     if not ui.fuel_price_edit.text().isdigit():
                         Messages.message("В поле Вартість введено не число!")
                     else:
+                        logging.info("Вартість заправки {}".format(ui.fuel_price_edit.text()))
                         if len(ui.fuel_cap_edit.text()) == 0:
                             Messages.message("Не введено к-ть літрів в поле Об'єм!")
                         else:
+                            logging.info("К-ть літрів: {}".format(ui.fuel_cap_edit.text()))
                             if not ui.fuel_cap_edit.text().isdigit():
                                 Messages.message("В поле Об'єм введено не число!")
                             else:
@@ -154,6 +157,21 @@ class AutoFuel:
                                 cost_format = "{0:.2f}"
                                 ui.fuel_cost_edit.setText(cost_format.format(price / capacity))
                                 logging.info("Ціна грн/л: {}".format(cost_format.format(price / capacity)))
+                                AutoFuel.insert_refuel_query = """
+                                INSERT
+                                INTO
+                                autofuel(fuel_type, fuel_mileage, fuel_price, fuel_capacity,
+                                         fuel_note, fuel_cost,fuel_data )
+                                VALUES
+                                ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');
+                                """.format(ui.fuel_type_combobox.currentText(),
+                                           ui.fuel_mealege_edit.text(),
+                                           ui.fuel_price_edit.text(),
+                                           ui.fuel_cap_edit.text(),
+                                           ui.fuel_note_edit.text(),
+                                           ui.fuel_cost_edit.text(),
+                                           ui.fuel_date_edit.text())
+                                logging.info("Зформовано SQL запит: '{}'".format(AutoFuel.insert_refuel_query))
 
     def load_data(self):
         """Метод у якому відбувається створення (якщо її не було створено раніше) бази даних
@@ -166,15 +184,15 @@ class AutoFuel:
             # Створюю необхідну таблицю у відкритій раніше базі даних
         cur = connection.cursor()
         cur.execute("""CREATE TABLE IF NOT EXISTS autofuel(
-                   ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                   fuel_type TEXT,
-                   fuel_mileage INTEGER,
-                   fuel_price TEXT,
-                   fuel_data INTEGER,
-                   fuel_capacity TEXT,
-                   fuel_note TEXT,
-                   fuel_cost TEXT);
-                """)
+                       ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                       fuel_type TEXT,
+                       fuel_mileage INTEGER,
+                       fuel_price TEXT,
+                       fuel_data INTEGER,
+                       fuel_capacity TEXT,
+                       fuel_note TEXT,
+                       fuel_cost TEXT);
+                    """)
         # Фіксація змін, якщо це необхідно
         try:
             connection.commit()
