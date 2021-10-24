@@ -5,15 +5,24 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QDate
 from ui import Ui_MainWindow
 from dialogs import Messages
+import style_table
 
 
-class Autotool:
+class AutoPart:
     insert_part_query = str()
 
     def __init__(self):
-        ui.part_price_edit.setStyleSheet("color: black;")
+        ui.part_table.setStyleSheet(style_table.styles.table_style)
+        ui.part_table.verticalHeader().setVisible(False)
+        ui.addBtn.clicked.connect(AutoPart.add_data)
+        ui.part_table.setHorizontalHeaderLabels(["№", "Назва", "Ціна, грн", "Дата", "Пробіг, км", "Прим."])
+        # підгружу поточну дату в DateEdit
+        logging.info('Завантажую системну дату в part_date_edit ')
+        date = QDate.currentDate()
+        ui.part_date_edit.setDate(date)
 
     def add_data(self):
+        """Метод в якому відбувається додавання інформації у БД"""
         if len(ui.part_name_edit.text()) == 0:
             Messages.message("Не введено назву запчастини в поле Назва ЗЧ!")
         else:
@@ -33,7 +42,7 @@ class Autotool:
                         else:
                             logging.info("Ціна:'{}', грн".format(ui.part_price_edit.text()))
                             logging.info("Підготовка sql-запиту")
-                            Autotool.insert_part_query = """
+                            AutoPart.insert_part_query = """
                             INSERT INTO
                               autotool (part_name, part_price, part_date, car_mileage, part_note)
                             VALUES
@@ -43,14 +52,14 @@ class Autotool:
                                        ui.part_date_edit.text(),
                                        ui.part_mealege_edit.text(),
                                        ui.part_note_edit.text(), )
-                            logging.info("Зформовано SQL запит: '{}'".format(Autotool.insert_part_query))
+                            logging.info("Зформовано SQL запит: '{}'".format(AutoPart.insert_part_query))
                             try:
                                 connection = sqlite3.connect("AutotoolDB.db")
                                 logging.info("DB connect success")
                             except sqlite3.Error as e:
                                 logging.info("DB connect error: {}".format(e))
                             cur = connection.cursor()
-                            cur.execute(Autotool.insert_part_query)
+                            cur.execute(AutoPart.insert_part_query)
                             connection.commit()
                             logging.info("Очищаю таблицю для виводу оновлених даних")
                             ui.part_table.clear()
@@ -68,6 +77,8 @@ class Autotool:
                             connection.close()
 
     def lad_data(self):
+        """Метод у якому відбувається створення (якщо її не було створено раніше) бази даних
+        та таблиці autotool в яку записуватиметься інфа по замінах запчастин """
         # Створюю або відкриваю файл бази даних
         try:
             connection = sqlite3.connect("AutotoolDB.db")
@@ -92,9 +103,7 @@ class Autotool:
         except sqlite3.Error as e:
             logging.info("DB commit error: {}".format(e))
 
-        # рендеринг даних у таблиці
-        ui.part_table.verticalHeader().setVisible(False)
-        ui.part_table.setHorizontalHeaderLabels(["№", "Назва", "Ціна, грн", "Дата", "Пробіг, км", "Прим."])
+        # рендеринг даних у таблиці запчастин
         for row_number, row_data in enumerate(cur.execute("SELECT * FROM autotool")):
             ui.part_table.insertRow(row_number)
             logging.info(row_data)
@@ -104,22 +113,92 @@ class Autotool:
         connection.close()
 
 
+class AutoFuel:
+    insert_refuel_query = str()
+
+    def __init__(self):
+        ui.fuel_table.setStyleSheet(style_table.styles.table_style)
+        ui.fuel_table.verticalHeader().setVisible(False)
+        ui.fuel_table.horizontalHeader().setVisible(True)
+        ui.add_refill_button.clicked.connect(AutoFuel.add_data)
+        ui.fuel_table.setHorizontalHeaderLabels(["№", "Тип палива", "Пробіг, км", "Вартість, грн",
+                                                 "Об'єм, л", "Прим.", "Ціна, грн/л"])
+        ui.fuel_type_combobox.addItems(["Газ", "Бензин", "Дизель"])
+        date = QDate.currentDate()
+        ui.part_date_edit.setDate(date)
+        ui.part_date_edit_3.setDate(date)
+
+    def add_data(self):
+        """Метод в якому відбувається перевірка введеної інформаці та додавання її у БД"""
+        if len(ui.fuel_mealege_edit.text()) == 0:
+            Messages.message("Не введено пробіг на момент заправки в поле Пробіг!")
+        else:
+            logging.info("Пробіг {}".format(ui.fuel_mealege_edit.text()))
+            if not ui.fuel_mealege_edit.text().isdigit():
+                Messages.message("В поле Пробіг введено не число!")
+            else:
+                if len(ui.fuel_price_edit.text()) == 0:
+                    Messages.message("Не введено вартість заправки в поле Вартість!")
+                else:
+                    if not ui.fuel_price_edit.text().isdigit():
+                        Messages.message("В поле Вартість введено не число!")
+                    else:
+                        if len(ui.fuel_cap_edit.text()) == 0:
+                            Messages.message("Не введено к-ть літрів в поле Об'єм!")
+                        else:
+                            if not ui.fuel_cap_edit.text().isdigit():
+                                Messages.message("В поле Об'єм введено не число!")
+                            else:
+                                price = float(ui.fuel_price_edit.text())
+                                capacity = float(ui.fuel_cap_edit.text())
+                                cost_format = "{0:.2f}"
+                                ui.fuel_cost_edit.setText(cost_format.format(price / capacity))
+                                logging.info("Ціна грн/л: {}".format(cost_format.format(price / capacity)))
+
+    def load_data(self):
+        """Метод у якому відбувається створення (якщо її не було створено раніше) бази даних
+        та таблиці autofuel в яку записуватиметься інфа по заправках """
+        try:
+            connection = sqlite3.connect("AutotoolDB.db")
+            logging.info("DB connect success")
+        except sqlite3.Error as e:
+            logging.info("DB connect error: {}".format(e))
+            # Створюю необхідну таблицю у відкритій раніше базі даних
+        cur = connection.cursor()
+        cur.execute("""CREATE TABLE IF NOT EXISTS autofuel(
+                   ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                   fuel_type TEXT,
+                   fuel_mileage INTEGER,
+                   fuel_price TEXT,
+                   fuel_data INTEGER,
+                   fuel_capacity TEXT,
+                   fuel_note TEXT,
+                   fuel_cost TEXT);
+                """)
+        # Фіксація змін, якщо це необхідно
+        try:
+            connection.commit()
+            logging.info("Фіксація змін у БД")
+        except sqlite3.Error as e:
+            logging.info("DB commit error: {}".format(e))
+            # рендеринг даних у таблиці запчастин
+
+            connection.close()
+
+
 app = QtWidgets.QApplication(sys.argv)
+
 MainWindow = QtWidgets.QMainWindow()
 ui = Ui_MainWindow()
 ui.setupUi(MainWindow)
-ui.addBtn.clicked.connect(Autotool.add_data)
-autotool = Autotool()
 # Налаштування виведення логів
 logging.basicConfig(level=logging.INFO)
 
-# підгружу поточну дату в DateEdit
-logging.info('Завантажую системну дату в part_date_edit ')
-date = QDate.currentDate()
-ui.part_date_edit.setDate(date)
+autotool = AutoPart()
+autofuel = AutoFuel()
 
 autotool.lad_data()
-
+autofuel.load_data()
 MainWindow.setFixedSize(1085, 500)
 MainWindow.show()
 
