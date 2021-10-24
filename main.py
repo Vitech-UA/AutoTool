@@ -120,6 +120,7 @@ ui.part_date_edit.setDate(date)
 
 autotool.lad_data()
 
+MainWindow.setFixedSize(1085, 500)
 MainWindow.show()
 
 sys.exit(app.exec_())
