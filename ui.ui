@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1002</width>
-    <height>263</height>
+    <width>1086</width>
+    <height>568</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>0</x>
       <y>0</y>
       <width>1141</width>
-      <height>241</height>
+      <height>521</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -30,36 +30,6 @@
      <attribute name="title">
       <string>Заміни запчастин та ТО</string>
      </attribute>
-     <widget class="QTableWidget" name="part_table">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>310</x>
-        <y>0</y>
-        <width>661</width>
-        <height>181</height>
-       </rect>
-      </property>
-      <property name="rowCount">
-       <number>6</number>
-      </property>
-      <property name="columnCount">
-       <number>5</number>
-      </property>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <column/>
-      <column/>
-      <column/>
-      <column/>
-      <column/>
-     </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
@@ -124,7 +94,7 @@
         <widget class="QLineEdit" name="part_mealege_edit"/>
        </item>
        <item>
-        <widget class="QLineEdit" name="part_price"/>
+        <widget class="QLineEdit" name="part_price_edit"/>
        </item>
        <item>
         <widget class="QDateEdit" name="part_date_edit"/>
@@ -144,6 +114,43 @@
        </item>
       </layout>
      </widget>
+     <widget class="QTableWidget" name="part_table">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>0</y>
+        <width>771</width>
+        <height>491</height>
+       </rect>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>771</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="rowCount">
+       <number>6</number>
+      </property>
+      <property name="columnCount">
+       <number>6</number>
+      </property>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <column/>
+      <column/>
+      <column/>
+      <column/>
+      <column/>
+      <column/>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -157,7 +164,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1002</width>
+     <width>1086</width>
      <height>26</height>
     </rect>
    </property>
