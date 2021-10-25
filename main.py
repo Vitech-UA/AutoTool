@@ -8,10 +8,44 @@ from dialogs import Messages
 import style_table
 
 
-class AutoPart:
+class AutoDataBase:
+
+    def __init__(self):
+        logging.info("Конструктор класа AutoDataBase ")
+        self.default_param = 1994
+
+    def update_table(self, table_name: str):
+        try:
+            connection = sqlite3.connect("AutotoolDB.db")
+            logging.info("DB connect success")
+        except sqlite3.Error as e:
+            logging.info("DB connect error: {}".format(e))
+
+        cur = connection.cursor()
+
+        if table_name == "autotool":
+            ui.part_table.clear()
+            for row_number, row_data in enumerate(cur.execute("SELECT * FROM autotool")):
+                ui.part_table.insertRow(row_number)
+                for column_number, data in enumerate(row_data):
+                    ui.part_table.setItem(row_number, column_number,
+                                          QtWidgets.QTableWidgetItem(str(data)))
+            connection.close()
+        if table_name == "autofuel":
+            ui.fuel_table.clear()
+            for row_number, row_data in enumerate(cur.execute("SELECT * FROM autofuel")):
+                ui.fuel_table.insertRow(row_number)
+                for column_number, data in enumerate(row_data):
+                    ui.fuel_table.setItem(row_number, column_number,
+                                          QtWidgets.QTableWidgetItem(str(data)))
+            connection.close()
+
+
+class AutoPart(AutoDataBase):
     insert_part_query = str()
 
     def __init__(self):
+        super().__init__()
         ui.part_table.setStyleSheet(style_table.styles.table_style)
         ui.part_table.verticalHeader().setVisible(False)
         ui.addBtn.clicked.connect(AutoPart.add_data)
@@ -59,22 +93,11 @@ class AutoPart:
                             except sqlite3.Error as e:
                                 logging.info("DB connect error: {}".format(e))
                             cur = connection.cursor()
+
                             cur.execute(AutoPart.insert_part_query)
                             connection.commit()
-                            logging.info("Очищаю таблицю для виводу оновлених даних")
-                            ui.part_table.clear()
-                            # рендеринг даних у таблиці
-                            ui.part_table.setHorizontalHeaderLabels(
-                                ["№", "Назва", "Ціна, грн", "Дата", "Пробіг, км", "Прим."])
-
-                            for row_number, row_data in enumerate(cur.execute("SELECT * FROM autotool")):
-                                ui.part_table.insertRow(row_number)
-                                logging.info(row_data)
-                                for column_number, data in enumerate(row_data):
-                                    ui.part_table.setItem(row_number, column_number,
-                                                          QtWidgets.QTableWidgetItem(str(data)))
-
                             connection.close()
+                            AutoDataBase().update_table(table_name="autotool")
 
     def lad_data(self):
         """Метод у якому відбувається створення (якщо її не було створено раніше) бази даних
@@ -113,7 +136,7 @@ class AutoPart:
         connection.close()
 
 
-class AutoFuel:
+class AutoFuel(AutoDataBase):
     insert_refuel_query = str()
 
     def __init__(self):
@@ -125,7 +148,6 @@ class AutoFuel:
                                                  "Об'єм, л", "Прим.", "Ціна, грн/л", "Дата"])
         ui.fuel_type_combobox.addItems(["Газ", "Бензин", "Дизель"])
         date = QDate.currentDate()
-        ui.part_date_edit.setDate(date)
         ui.fuel_date_edit.setDate(date)
 
     def add_data(self):
@@ -172,6 +194,19 @@ class AutoFuel:
                                            ui.fuel_cost_edit.text(),
                                            ui.fuel_date_edit.text())
                                 logging.info("Зформовано SQL запит: '{}'".format(AutoFuel.insert_refuel_query))
+                                # з'єднуюсь з БД для запису заправки
+                                try:
+                                    connection = sqlite3.connect("AutotoolDB.db")
+                                    logging.info("DB connect success")
+                                except sqlite3.Error as e:
+                                    logging.info("DB connect error: {}".format(e))
+                                cur = connection.cursor()
+                                cur.execute(AutoFuel.insert_refuel_query)
+                                connection.commit()
+                                logging.info("Очищаю таблицю для виводу оновлених даних")
+                                ui.fuel_table.clear()
+                                logging.info("Завантаження оновлених даних у таблицю")
+                                AutoDataBase().update_table(table_name="autofuel")
 
     def load_data(self):
         """Метод у якому відбувається створення (якщо її не було створено раніше) бази даних
@@ -181,7 +216,8 @@ class AutoFuel:
             logging.info("DB connect success")
         except sqlite3.Error as e:
             logging.info("DB connect error: {}".format(e))
-            # Створюю необхідну таблицю у відкритій раніше базі даних
+
+        # Створюю необхідну таблицю у відкритій раніше базі даних
         cur = connection.cursor()
         cur.execute("""CREATE TABLE IF NOT EXISTS autofuel(
                        ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -193,15 +229,8 @@ class AutoFuel:
                        fuel_note TEXT,
                        fuel_cost TEXT);
                     """)
-        # Фіксація змін, якщо це необхідно
-        try:
-            connection.commit()
-            logging.info("Фіксація змін у БД")
-        except sqlite3.Error as e:
-            logging.info("DB commit error: {}".format(e))
-            # рендеринг даних у таблиці запчастин
-
-            connection.close()
+        connection.close()
+        self.render_table
 
 
 app = QtWidgets.QApplication(sys.argv)
@@ -212,11 +241,10 @@ ui.setupUi(MainWindow)
 # Налаштування виведення логів
 logging.basicConfig(level=logging.INFO)
 
-autotool = AutoPart()
 autofuel = AutoFuel()
-
-autotool.lad_data()
-autofuel.load_data()
+autotool = AutoPart()
+autotool.update_table(table_name="autotool")
+autofuel.update_table(table_name="autofuel")
 MainWindow.setFixedSize(1085, 500)
 MainWindow.show()
 
