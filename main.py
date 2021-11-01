@@ -12,7 +12,6 @@ class AutoDataBase:
 
     def __init__(self):
         logging.info("Конструктор класа AutoDataBase ")
-        self.default_param = 1994
 
     def update_table(self, table_name: str):
         try:
@@ -46,6 +45,7 @@ class AutoPart(AutoDataBase):
 
     def __init__(self):
         super().__init__()
+        self.table_name = "autotool"
         ui.part_table.setStyleSheet(style_table.styles.table_style)
         ui.part_table.verticalHeader().setVisible(False)
         ui.addBtn.clicked.connect(AutoPart.add_data)
@@ -140,6 +140,7 @@ class AutoFuel(AutoDataBase):
     insert_refuel_query = str()
 
     def __init__(self):
+        self.table_name = "autofuel"
         ui.fuel_table.setStyleSheet(style_table.styles.table_style)
         ui.fuel_table.verticalHeader().setVisible(False)
         ui.fuel_table.horizontalHeader().setVisible(True)
