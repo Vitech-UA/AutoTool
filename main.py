@@ -5,7 +5,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QDate
 from ui import Ui_MainWindow
 from dialogs import Messages
-import style_table
+from style_table import Styles
 
 
 class AutoPart:
@@ -15,7 +15,7 @@ class AutoPart:
     def __init__(self):
         super().__init__()
 
-        ui.part_table.setStyleSheet(style_table.styles.table_style)
+        ui.part_table.setStyleSheet(Styles.table_style)
         ui.part_table.verticalHeader().setVisible(False)
         ui.addBtn.clicked.connect(AutoPart.add_data)
         ui.part_table.setHorizontalHeaderLabels(["№", "Назва", "Ціна, грн", "Дата", "Пробіг, км", "Прим."])
@@ -79,12 +79,27 @@ class AutoPart:
                                 logging.info("DB connect success")
                             except sqlite3.Error as e:
                                 logging.info("DB connect error: {}".format(e))
+                                
                             cur = connection.cursor()
-
                             cur.execute(AutoPart.insert_part_query)
                             connection.commit()
                             connection.close()
-                            self.update_table()
+                            try:
+                                connection = sqlite3.connect("AutotoolDB.db")
+                                logging.info("DB connect success")
+                            except sqlite3.Error as e:
+                                logging.info("DB connect error: {}".format(e))
+
+                            cur = connection.cursor()
+                            ex_query = "SELECT * FROM {}".format(self.table_name)
+                            logging.info(ex_query)
+                            ui.part_table.clear()
+                            for row_number, row_data in enumerate(cur.execute(ex_query)):
+                                ui.part_table.insertRow(row_number)
+                                for column_number, data in enumerate(row_data):
+                                    ui.part_table.setItem(row_number, column_number,
+                                                          QtWidgets.QTableWidgetItem(str(data)))
+                            connection.close()
 
     def lad_data(self):
         """Метод у якому відбувається створення (якщо її не було створено раніше) бази даних
@@ -120,7 +135,7 @@ class AutoFuel:
 
     def __init__(self):
 
-        ui.fuel_table.setStyleSheet(style_table.styles.table_style)
+        ui.fuel_table.setStyleSheet(Styles.table_style)
         ui.fuel_table.verticalHeader().setVisible(False)
         ui.fuel_table.horizontalHeader().setVisible(True)
         ui.add_refill_button.clicked.connect(AutoFuel.add_data)
@@ -201,7 +216,7 @@ class AutoFuel:
                                 cur = connection.cursor()
                                 cur.execute(AutoFuel.insert_refuel_query)
                                 connection.commit()
-                                connection.close()
+                                #connection.close()
                                 logging.info("Завантаження оновлених даних у таблицю")
                                 self.update_table()
 
