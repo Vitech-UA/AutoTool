@@ -8,44 +8,12 @@ from dialogs import Messages
 from style_table import Styles
 
 
-class AutoDataBase:
-
-    def __init__(self):
-        logging.info("Конструктор класа AutoDataBase ")
-        self.default_param = 1994
-
-    def update_table(self, table_name: str):
-        try:
-            connection = sqlite3.connect("AutotoolDB.db")
-            logging.info("DB connect success")
-        except sqlite3.Error as e:
-            logging.info("DB connect error: {}".format(e))
-
-        cur = connection.cursor()
-
-        if table_name == "autotool":
-            ui.part_table.clear()
-            for row_number, row_data in enumerate(cur.execute("SELECT * FROM autotool")):
-                ui.part_table.insertRow(row_number)
-                for column_number, data in enumerate(row_data):
-                    ui.part_table.setItem(row_number, column_number,
-                                          QtWidgets.QTableWidgetItem(str(data)))
-            connection.close()
-        if table_name == "autofuel":
-            ui.fuel_table.clear()
-            for row_number, row_data in enumerate(cur.execute("SELECT * FROM autofuel")):
-                ui.fuel_table.insertRow(row_number)
-                for column_number, data in enumerate(row_data):
-                    ui.fuel_table.setItem(row_number, column_number,
-                                          QtWidgets.QTableWidgetItem(str(data)))
-            connection.close()
-
-
-class AutoPart(AutoDataBase):
+class AutoPart:
     insert_part_query = str()
+    table_name = "autotool"
 
     def __init__(self):
-        super().__init__()
+
         ui.part_table.setStyleSheet(Styles.table_style)
         ui.part_table.verticalHeader().setVisible(False)
         ui.addBtn.clicked.connect(AutoPart.add_data)
@@ -54,6 +22,24 @@ class AutoPart(AutoDataBase):
         logging.info('Завантажую системну дату в part_date_edit ')
         date = QDate.currentDate()
         ui.part_date_edit.setDate(date)
+
+    def update_table(self):
+        try:
+            connection = sqlite3.connect("AutotoolDB.db")
+            logging.info("DB connect success")
+        except sqlite3.Error as e:
+            logging.info("DB connect error: {}".format(e))
+
+        cur = connection.cursor()
+        ex_query = "SELECT * FROM {}".format(self.table_name)
+        logging.info(ex_query)
+        ui.part_table.clear()
+        for row_number, row_data in enumerate(cur.execute(ex_query)):
+            ui.part_table.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                ui.part_table.setItem(row_number, column_number,
+                                      QtWidgets.QTableWidgetItem(str(data)))
+        connection.close()
 
     def add_data(self):
         """Метод в якому відбувається додавання інформації у БД"""
@@ -77,27 +63,42 @@ class AutoPart(AutoDataBase):
                             logging.info("Ціна:'{}', грн".format(ui.part_price_edit.text()))
                             logging.info("Підготовка sql-запиту")
                             AutoPart.insert_part_query = """
-                            INSERT INTO
-                              autotool (part_name, part_price, part_date, car_mileage, part_note)
-                            VALUES
-                              ('{0}','{1}','{2}','{3}','{4}');
-                            """.format(ui.part_name_edit.text(),
-                                       ui.part_price_edit.text(),
-                                       ui.part_date_edit.text(),
-                                       ui.part_mealege_edit.text(),
-                                       ui.part_note_edit.text(), )
+                                INSERT INTO
+                                  autotool (part_name, part_price, part_date, car_mileage, part_note)
+                                VALUES
+                                  ('{0}','{1}','{2}','{3}','{4}');
+                                """.format(ui.part_name_edit.text(),
+                                           ui.part_price_edit.text(),
+                                           ui.part_date_edit.text(),
+                                           ui.part_mealege_edit.text(),
+                                           ui.part_note_edit.text(), )
                             logging.info("Зформовано SQL запит: '{}'".format(AutoPart.insert_part_query))
                             try:
                                 connection = sqlite3.connect("AutotoolDB.db")
                                 logging.info("DB connect success")
                             except sqlite3.Error as e:
                                 logging.info("DB connect error: {}".format(e))
+                                
                             cur = connection.cursor()
-
                             cur.execute(AutoPart.insert_part_query)
                             connection.commit()
                             connection.close()
-                            AutoDataBase().update_table(table_name="autotool")
+                            try:
+                                connection = sqlite3.connect("AutotoolDB.db")
+                                logging.info("DB connect success")
+                            except sqlite3.Error as e:
+                                logging.info("DB connect error: {}".format(e))
+
+                            cur = connection.cursor()
+                            ex_query = "SELECT * FROM {}".format(self.table_name)
+                            logging.info(ex_query)
+                            ui.part_table.clear()
+                            for row_number, row_data in enumerate(cur.execute(ex_query)):
+                                ui.part_table.insertRow(row_number)
+                                for column_number, data in enumerate(row_data):
+                                    ui.part_table.setItem(row_number, column_number,
+                                                          QtWidgets.QTableWidgetItem(str(data)))
+                            connection.close()
 
     def lad_data(self):
         """Метод у якому відбувається створення (якщо її не було створено раніше) бази даних
@@ -111,13 +112,13 @@ class AutoPart(AutoDataBase):
         # Створюю необхідну таблицю у відкритій раніше базі даних
         cur = connection.cursor()
         cur.execute("""CREATE TABLE IF NOT EXISTS autotool(
-           ID INTEGER PRIMARY KEY AUTOINCREMENT,
-           part_name TEXT,
-           part_price INTEGER,
-           part_date TEXT,
-           car_mileage INTEGER,
-           part_note TEXT);
-        """)
+               ID INTEGER PRIMARY KEY AUTOINCREMENT,
+               part_name TEXT,
+               part_price INTEGER,
+               part_date TEXT,
+               car_mileage INTEGER,
+               part_note TEXT);
+            """)
 
         # Фіксація змін, якщо це необхідно
         try:
@@ -126,20 +127,13 @@ class AutoPart(AutoDataBase):
         except sqlite3.Error as e:
             logging.info("DB commit error: {}".format(e))
 
-        # рендеринг даних у таблиці запчастин
-        for row_number, row_data in enumerate(cur.execute("SELECT * FROM autotool")):
-            ui.part_table.insertRow(row_number)
-            logging.info(row_data)
-            for column_number, data in enumerate(row_data):
-                ui.part_table.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
 
-        connection.close()
-
-
-class AutoFuel(AutoDataBase):
+class AutoFuel:
     insert_refuel_query = str()
+    table_name = "autofuel"
 
     def __init__(self):
+
         ui.fuel_table.setStyleSheet(Styles.table_style)
         ui.fuel_table.verticalHeader().setVisible(False)
         ui.fuel_table.horizontalHeader().setVisible(True)
@@ -149,6 +143,24 @@ class AutoFuel(AutoDataBase):
         ui.fuel_type_combobox.addItems(["Газ", "Бензин", "Дизель"])
         date = QDate.currentDate()
         ui.fuel_date_edit.setDate(date)
+
+    def update_table(self):
+        try:
+            connection = sqlite3.connect("AutotoolDB.db")
+            logging.info("DB connect success")
+        except sqlite3.Error as e:
+            logging.info("DB connect error: {}".format(e))
+
+        cur = connection.cursor()
+        ex_query = "SELECT * FROM {}".format(self.table_name)
+        logging.info(ex_query)
+        ui.fuel_table.clear()
+        for row_number, row_data in enumerate(cur.execute(ex_query)):
+            ui.fuel_table.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                ui.fuel_table.setItem(row_number, column_number,
+                                      QtWidgets.QTableWidgetItem(str(data)))
+        connection.close()
 
     def add_data(self):
         """Метод в якому відбувається перевірка введеної інформаці та додавання її у БД"""
@@ -203,10 +215,9 @@ class AutoFuel(AutoDataBase):
                                 cur = connection.cursor()
                                 cur.execute(AutoFuel.insert_refuel_query)
                                 connection.commit()
-                                logging.info("Очищаю таблицю для виводу оновлених даних")
-                                ui.fuel_table.clear()
+                                #connection.close()
                                 logging.info("Завантаження оновлених даних у таблицю")
-                                AutoDataBase().update_table(table_name="autofuel")
+                                self.update_table()
 
     def load_data(self):
         """Метод у якому відбувається створення (якщо її не було створено раніше) бази даних
@@ -230,7 +241,6 @@ class AutoFuel(AutoDataBase):
                        fuel_cost TEXT);
                     """)
         connection.close()
-        self.render_table
 
 
 app = QtWidgets.QApplication(sys.argv)
@@ -243,8 +253,8 @@ logging.basicConfig(level=logging.INFO)
 
 autofuel = AutoFuel()
 autotool = AutoPart()
-autotool.update_table(table_name="autotool")
-autofuel.update_table(table_name="autofuel")
+autotool.update_table()
+autofuel.update_table()
 MainWindow.setFixedSize(1085, 500)
 MainWindow.show()
 
