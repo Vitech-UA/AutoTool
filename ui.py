@@ -79,7 +79,7 @@ class Ui_MainWindow(object):
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
         self.layoutWidget_2 = QtWidgets.QWidget(self.tab_2)
-        self.layoutWidget_2.setGeometry(QtCore.QRect(100, 0, 201, 231))
+        self.layoutWidget_2.setGeometry(QtCore.QRect(100, 0, 201, 233))
         self.layoutWidget_2.setObjectName("layoutWidget_2")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.layoutWidget_2)
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
@@ -164,10 +164,19 @@ class Ui_MainWindow(object):
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1086, 26))
         self.menubar.setObjectName("menubar")
+        self.menu = QtWidgets.QMenu(self.menubar)
+        self.menu.setObjectName("menu")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.action = QtWidgets.QAction(MainWindow)
+        self.action.setObjectName("action")
+        self.action_2 = QtWidgets.QAction(MainWindow)
+        self.action_2.setObjectName("action_2")
+        self.menu.addAction(self.action)
+        self.menu.addAction(self.action_2)
+        self.menubar.addAction(self.menu.menuAction())
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(1)
@@ -192,6 +201,9 @@ class Ui_MainWindow(object):
         self.label_16.setText(_translate("MainWindow", "Примітка"))
         self.label_17.setText(_translate("MainWindow", "Ціна грн/л"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Заправки авто"))
+        self.menu.setTitle(_translate("MainWindow", "База даних"))
+        self.action.setText(_translate("MainWindow", "Імпорт"))
+        self.action_2.setText(_translate("MainWindow", "Експорт"))
 
 
 if __name__ == "__main__":

@@ -162,7 +162,7 @@
         <x>100</x>
         <y>0</y>
         <width>201</width>
-        <height>231</height>
+        <height>233</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -360,8 +360,26 @@
      <height>26</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>База даних</string>
+    </property>
+    <addaction name="action"/>
+    <addaction name="action_2"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="action">
+   <property name="text">
+    <string>Імпорт</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>Експорт</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

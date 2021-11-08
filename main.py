@@ -5,7 +5,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QDate
 from ui import Ui_MainWindow
 from dialogs import Messages
-import style_table
+from style_table import Styles
 
 
 class AutoDataBase:
@@ -46,7 +46,7 @@ class AutoPart(AutoDataBase):
 
     def __init__(self):
         super().__init__()
-        ui.part_table.setStyleSheet(style_table.styles.table_style)
+        ui.part_table.setStyleSheet(Styles.table_style)
         ui.part_table.verticalHeader().setVisible(False)
         ui.addBtn.clicked.connect(AutoPart.add_data)
         ui.part_table.setHorizontalHeaderLabels(["№", "Назва", "Ціна, грн", "Дата", "Пробіг, км", "Прим."])
@@ -140,7 +140,7 @@ class AutoFuel(AutoDataBase):
     insert_refuel_query = str()
 
     def __init__(self):
-        ui.fuel_table.setStyleSheet(style_table.styles.table_style)
+        ui.fuel_table.setStyleSheet(Styles.table_style)
         ui.fuel_table.verticalHeader().setVisible(False)
         ui.fuel_table.horizontalHeader().setVisible(True)
         ui.add_refill_button.clicked.connect(AutoFuel.add_data)
