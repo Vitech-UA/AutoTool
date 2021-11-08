@@ -13,11 +13,7 @@ class AutoPart:
     table_name = "autotool"
 
     def __init__(self):
-<<<<<<< HEAD
-=======
         super().__init__()
->>>>>>> AutoTool-v1.0/master
-
         ui.part_table.setStyleSheet(Styles.table_style)
         ui.part_table.verticalHeader().setVisible(False)
         ui.addBtn.clicked.connect(AutoPart.add_data)
