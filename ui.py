@@ -170,12 +170,12 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.action = QtWidgets.QAction(MainWindow)
-        self.action.setObjectName("action")
-        self.action_2 = QtWidgets.QAction(MainWindow)
-        self.action_2.setObjectName("action_2")
-        self.menu.addAction(self.action)
-        self.menu.addAction(self.action_2)
+        self.Import_DataBase_Action = QtWidgets.QAction(MainWindow)
+        self.Import_DataBase_Action.setObjectName("Import_DataBase_Action")
+        self.Export_DataDase_Action = QtWidgets.QAction(MainWindow)
+        self.Export_DataDase_Action.setObjectName("Export_DataDase_Action")
+        self.menu.addAction(self.Import_DataBase_Action)
+        self.menu.addAction(self.Export_DataDase_Action)
         self.menubar.addAction(self.menu.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -202,8 +202,8 @@ class Ui_MainWindow(object):
         self.label_17.setText(_translate("MainWindow", "Ціна грн/л"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Заправки авто"))
         self.menu.setTitle(_translate("MainWindow", "База даних"))
-        self.action.setText(_translate("MainWindow", "Імпорт"))
-        self.action_2.setText(_translate("MainWindow", "Експорт"))
+        self.Import_DataBase_Action.setText(_translate("MainWindow", "Імпорт"))
+        self.Export_DataDase_Action.setText(_translate("MainWindow", "Експорт"))
 
 
 if __name__ == "__main__":

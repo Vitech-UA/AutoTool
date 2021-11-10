@@ -33,3 +33,15 @@ class Messages:
         return_value = msgBox.exec()
         if return_value == QMessageBox.Ok:
             print('OK clicked')
+
+    def message_import_success():
+
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Icon.NoIcon)
+        msgBox.setText('Базу даних успішно імпортовано')
+        msgBox.setWindowTitle('Успіх!')
+        msgBox.setStandardButtons(QMessageBox.Ok)
+
+        return_value = msgBox.exec()
+        if return_value == QMessageBox.Ok:
+            print('OK clicked')

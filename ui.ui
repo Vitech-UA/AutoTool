@@ -364,18 +364,18 @@
     <property name="title">
      <string>База даних</string>
     </property>
-    <addaction name="action"/>
-    <addaction name="action_2"/>
+    <addaction name="Import_DataBase_Action"/>
+    <addaction name="Export_DataDase_Action"/>
    </widget>
    <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="action">
+  <action name="Import_DataBase_Action">
    <property name="text">
     <string>Імпорт</string>
    </property>
   </action>
-  <action name="action_2">
+  <action name="Export_DataDase_Action">
    <property name="text">
     <string>Експорт</string>
    </property>
