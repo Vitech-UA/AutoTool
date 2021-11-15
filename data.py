@@ -27,7 +27,6 @@ class DataBaseImporter(CommonMethods):
     def __init__(self):
         CommonMethods.__init__(self)
 
-
     def import_database(self):
         logging.info("Викликано метод import_database")
         logging.info(self.db_folder_path)
@@ -55,8 +54,6 @@ class DataBaseImporter(CommonMethods):
                 print("Файлу не існує!!!")
         else:
             logging.info("Шлях до обраного файлу не визначено")
-
-
 
 
 class DataBaseExporter(CommonMethods):
