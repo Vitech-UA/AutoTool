@@ -166,6 +166,8 @@ class Ui_MainWindow(object):
         self.menubar.setObjectName("menubar")
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setObjectName("menu")
+        self.menu_2 = QtWidgets.QMenu(self.menubar)
+        self.menu_2.setObjectName("menu_2")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -177,6 +179,7 @@ class Ui_MainWindow(object):
         self.menu.addAction(self.Import_DataBase_Action)
         self.menu.addAction(self.Export_DataDase_Action)
         self.menubar.addAction(self.menu.menuAction())
+        self.menubar.addAction(self.menu_2.menuAction())
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(1)
@@ -202,6 +205,7 @@ class Ui_MainWindow(object):
         self.label_17.setText(_translate("MainWindow", "Ціна грн/л"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Заправки авто"))
         self.menu.setTitle(_translate("MainWindow", "База даних"))
+        self.menu_2.setTitle(_translate("MainWindow", "Налаштування"))
         self.Import_DataBase_Action.setText(_translate("MainWindow", "Імпорт"))
         self.Export_DataDase_Action.setText(_translate("MainWindow", "Експорт"))
 
