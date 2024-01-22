@@ -133,3 +133,5 @@ dmypy.json
 *.db
 .ui
 *.cmd
+fuel_data.json
+fuel_data.xlsx
