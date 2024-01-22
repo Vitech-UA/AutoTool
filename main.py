@@ -1,6 +1,9 @@
 import openpyxl as op
 from datetime import datetime
 import json
+from PyQt5 import QtCore, QtGui, QtWidgets
+from ui import Ui_MainWindow
+import sys
 
 filename = 'fuel_data.xlsx'
 wb = op.load_workbook(filename)
@@ -24,3 +27,11 @@ for i in range(6, rows_cnt + 1):
 
 with open('fuel_data.json', 'w') as f:
     json.dump(record_dict, f)
+
+
+app = QtWidgets.QApplication(sys.argv)
+MainWindow = QtWidgets.QMainWindow()
+ui = Ui_MainWindow()
+ui.setupUi(MainWindow)
+MainWindow.show()
+sys.exit(app.exec_())
