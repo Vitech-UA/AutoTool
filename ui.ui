@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>780</width>
-    <height>766</height>
+    <width>778</width>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Auto tool</string>
+  </property>
+  <property name="locale">
+   <locale language="Ukrainian" country="Ukraine"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tabWidget">
@@ -19,8 +22,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>771</width>
-      <height>721</height>
+      <width>761</width>
+      <height>371</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -28,49 +31,104 @@
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
-      <string>Tab 1</string>
+      <string>Заправки</string>
      </attribute>
      <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
-        <x>610</x>
+        <x>10</x>
         <y>10</y>
-        <width>139</width>
-        <height>175</height>
+        <width>207</width>
+        <height>185</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Пробіг, км</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="MilageEdit"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Сума, грн</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="SummEdit"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Об'єм, л</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="VolumeEdit"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Дата запрвки</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDateEdit" name="dateEdit"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Тип палива</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="FuelTypeComboBox">
+           <item>
+            <property name="text">
+             <string>Газ</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Бензин</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="AddButton">
          <property name="text">
-          <string>Додати заправку</string>
+          <string>Додати</string>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_2"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_3"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_4"/>
-       </item>
-       <item>
-        <widget class="QComboBox" name="comboBox">
-         <item>
-          <property name="text">
-           <string>Газ</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Бензин</string>
-          </property>
-         </item>
         </widget>
        </item>
       </layout>
@@ -78,7 +136,12 @@
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
-      <string>Tab 2</string>
+      <string>Облік ЗЧ</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>ТО</string>
      </attribute>
     </widget>
    </widget>
@@ -88,7 +151,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>780</width>
+     <width>778</width>
      <height>26</height>
     </rect>
    </property>
