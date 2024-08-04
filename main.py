@@ -17,21 +17,23 @@ class AutoToolApp:
         self.ui = Ui_MainWindow()
         self.ui.setupUi(MainWindow)
         self.json_worker = JsonWorker()
+        self.json_worker.file_name = 'file_name.json'
         self.validator = DataValidator()
         self.ui.MilageEdit.textEdited.connect(self.get_milage)
         self.ui.SummEdit.textEdited.connect(self.get_sum)
         self.ui.VolumeEdit.textEdited.connect(self.get_volume)
-        self.ui.dateEdit.dateChanged.connect(self.update_date)
+        self.ui.dateEdit.dateChanged.connect(self.load_current_date)
         self.ui.FuelTypeComboBox.currentIndexChanged.connect(self.update_fuel_type)
         self.ui.AddButton.clicked.connect(self.add_fuel_record)
 
         self.ui.dateEdit.setDate(QtCore.QDate.currentDate())
-        self.update_date()
+        self.load_current_date()
         self.update_fuel_type()
 
         self.milage = 0
         self.summ = 0
         self.volume = 0
+        self.fuel_type = None
         self.milage_valid_flag = False
         self.volume_valid_flag = False
         self.summ_valid_flag = False
@@ -59,7 +61,7 @@ class AutoToolApp:
             print("Об'єм: {} л.".format(self.volume))
             self.volume_valid_flag = True
 
-    def update_date(self):
+    def load_current_date(self):
         self.date = date(self.ui.dateEdit.date().year(), self.ui.dateEdit.date().month(),
                          self.ui.dateEdit.date().day())
         print('Дата: {}'.format(self.date))
@@ -69,14 +71,14 @@ class AutoToolApp:
         print(self.fuel_type)
 
     def add_fuel_record(self):
-
         if self.volume_valid_flag and self.summ_valid_flag and self.milage_valid_flag:
             self.fuel_json_data = self.json_worker.add_item_to_json(json_data=self.fuel_json_data,
                                                                     fuel_type=self.fuel_type,
-                                                                    milege=self.milage,
+                                                                    milage=self.milage,
                                                                     volume=self.volume,
-                                                                    sum=self.summ,
+                                                                    summ=self.summ,
                                                                     date_add=self.date)
+            self.json_worker.save_json_to_file(self.fuel_json_data)
             record_count = 0
             for key in self.fuel_json_data.keys():
                 record_count += 1
